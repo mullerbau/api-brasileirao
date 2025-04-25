@@ -18,6 +18,7 @@ router.get("/", async (req, res) => {
     try {
         const clubes = await prisma.clube.findMany({
             orderBy: { id: 'desc' },
+            include: { jogador: true}
         })
         res.status(200).json(clubes)
     } catch (error) {
@@ -86,64 +87,5 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
-router.get("/transporte/:transp", async (req, res) => {
-    // const { transp } = req.params
-    const transp = req.params.transp
-    try {
-        const viagens = await prisma.viagem.findMany({
-            where: { transporte: transp as Transportes }
-        })
-        res.status(200).json(viagens)
-    } catch (error) {
-        res.status(500).json({ erro: error })
-    }
-})
 
-router.get("/preco/:maximo", async (req, res) => {
-    const { maximo } = req.params
-    try {
-        const viagens = await prisma.viagem.findMany({
-            where: { preco: { lte: Number(maximo) } }
-        })
-        res.status(200).json(viagens)
-    } catch (error) {
-        res.status(500).json({ erro: error })
-    }
-})
-
-router.get("/destino/ordem", async (req, res) => {
-    try {
-        const viagens = await prisma.viagem.findMany({
-            orderBy: { destino: 'asc' },
-            select: {
-                destino: true,
-                preco: true,
-                duracao: true
-            }
-        })
-        res.status(200).json(viagens)
-    } catch (error) {
-        res.status(500).json({ erro: error })
-    }
-})
-
-router.get("/resumo/media", async (req, res) => {
-    try {
-        const viagens = await prisma.viagem.aggregate({
-            _avg: {
-                preco: true,
-                duracao: true
-            }
-        })
-        const dadosRetorno = {
-            preco: viagens._avg.preco,
-            duracao: viagens._avg.duracao
-        }
-        res.status(200).json(dadosRetorno)
-        // res.status(200).json(viagens)
-    } catch (error) {
-        res.status(500).json({ erro: error })
-    }
-})
-
-export default router
+export default router;

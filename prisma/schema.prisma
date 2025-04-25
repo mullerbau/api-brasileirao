@@ -29,5 +29,6 @@ model Jogador {
   nacionalidade  String       @db.VarChar(20)
   timeId         Int
   time           Clube       @relation(fields: [timeId], references: [id])
+  posicao        String      @db.VarChar(20) @default("")
   @@map("jogadores")
 }
