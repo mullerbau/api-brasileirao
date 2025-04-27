@@ -10,7 +10,7 @@ app.use("/clubes", routesClubes)
 app.use("/jogadores", routesJogadores)
 
 app.get('/', (req, res) => {
-  res.send('API: Cadastro de clubes Brasileirão 2025')
+  res.send('API: Cadastro de clubes Brasileirão 2025 - Casa')
 })
 
 app.listen(port, () => {
